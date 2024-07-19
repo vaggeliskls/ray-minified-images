@@ -1,6 +1,7 @@
 FROM vaggeliskls/ray-base:latest
 
-RUN pip install --no-cache-dir --upgrade pip setuptools ray[all]==2.32.0
+ARG RAY_VERSION=2.32.0
+RUN pip install --no-cache-dir --upgrade pip setuptools ray[all]==${RAY_VERSION}
 
 # remove pip
 # RUN pip uninstall pip -y
@@ -27,5 +28,3 @@ RUN groupadd -f --gid ${GID} ${GNAME} \
 
 
 USER $UNAME
-ENTRYPOINT []
-# CMD ["sh", "-c", "-u", "python -m $MAIN_MODULE"]
