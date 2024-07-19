@@ -32,11 +32,9 @@ RUN ARCH=$(uname -m) && \
 ENV PATH="/opt/conda/bin:$PATH"
 
 # Create conda environment and install Python
-RUN conda create -n ray python=$PYTHON_VERSION -y
+RUN conda create -n ray python=$PYTHON_VERSION -y && \
+    conda activate ray
 
-# Activate conda environment and install additional packages
-RUN echo "source activate ray" > ~/.bashrc
-ENV CONDA_DEFAULT_ENV=ray
 ENV PATH="/opt/conda/envs/ray/bin:$PATH"
 
 # Update pip and setuptools
