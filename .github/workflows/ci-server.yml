@@ -7,11 +7,46 @@ on:
 
 env:
   TAG_NAME: ${{ github.ref_name }}
-  IMAGE_URL: docker.io/${{ github.actor }}/ray-server
+  IMAGE_URL_SERVER: docker.io/${{ github.actor }}/ray-server
+  IMAGE_URL_BASE: docker.io/${{ github.actor }}/ray-base
 
 jobs:
+  ray-image-base:
+    name: Ray image base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+
+      #   - name: Set up QEMU
+      #     uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+
+      - name: 📦 Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerifle-python-base
+          push: true
+          cache-from: ${{env.IMAGE_URL_BASE}}:latest
+          tags: |
+            ${{env.IMAGE_URL_BASE}}:latest
+          #   platforms: linux/amd64,linux/arm64
+          sbom: true
+          provenance: true
+
   ray-image-server:
     name: Ray image server
+    needs: [ray-image-base]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repository
@@ -36,8 +71,9 @@ jobs:
           context: .
           file: ./Dockerfile-python-server
           push: true
+          cache-from: ${{env.IMAGE_URL_SERVER}}:latest
           tags: |
-            ${{env.IMAGE_URL}}:latest
+            ${{env.IMAGE_URL_SERVER}}:latest
           #   platforms: linux/amd64,linux/arm64
           sbom: true
           provenance: true

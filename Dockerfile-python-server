@@ -1,7 +1,31 @@
 FROM vaggeliskls/ray-base:latest
 
-RUN pip install ray[all]==2.32.0 && \
-    pip install --upgrade pip setuptools    
+RUN pip install --no-cache-dir --upgrade pip setuptools ray[all]==2.32.0
 
 # remove pip
 RUN pip uninstall pip -y
+
+# When we move these args with workdir before the build fails
+# Non root user configuration
+# uid=1000(ray) gid=100(users) groups=100(users), 27(sudo)
+ARG UNAME=ray
+ARG GNAME=users
+ARG UID=1000
+ARG GID=100
+ARG HOME_DIR=/home/$UNAME
+ARG APP_DIR=/app
+
+WORKDIR ${APP_DIR}
+
+# Create a non-root user and app dir
+ENV PATH="$HOME_DIR/.local/bin:$PATH"
+ENV HOME=$HOME_DIR
+RUN groupadd -f --gid ${GID} ${GNAME} \
+    && useradd --uid ${UID} --gid ${GNAME} --home-dir ${HOME_DIR} --create-home --shell /bin/sh ${UNAME} \
+    && mkdir -p ${APP_DIR} \
+    && chown -R $UNAME:$GNAME ${APP_DIR}
+
+
+USER $UNAME
+ENTRYPOINT []
+# CMD ["sh", "-c", "-u", "python -m $MAIN_MODULE"]
