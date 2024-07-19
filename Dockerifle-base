@@ -37,7 +37,8 @@ RUN conda create -n ray python=$PYTHON_VERSION -y && \
 
 RUN conda config --add channels conda-forge && \
     conda config --set channel_priority strict && \
-    conda create -n ray python=$PYTHON_VERSION && \
+    conda create -n ray python=$PYTHON_VERSION -y && \
+    conda init && \
     conda activate ray
 
 # ENV PATH="/opt/conda/envs/ray/bin:$PATH"
