@@ -31,5 +31,5 @@ RUN ARCH=$(uname -m) && \
 # Add ray to path
 ENV PATH="/root/.local/bin:/opt/conda/bin:$PATH"
 
-RUN conda install -y libgcc-ng python=$PYTHON_VERSION && \
+RUN conda install python=$PYTHON_VERSION -y && \
     conda run -n base pip install --upgrade pip setuptools
