@@ -5,6 +5,10 @@ on:
     branches:
       - test
 
+concurrency:
+  group: ${{ github.ref_type }}
+  cancel-in-progress: true
+
 env:
   TAG_NAME: ${{ github.ref_name }}
   IMAGE_URL_SERVER: docker.io/${{ github.actor }}/ray-server
