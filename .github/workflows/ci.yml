@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile-base
+          file: ./Dockerifle-base
           push: true
           tags: |
             ${{env.IMAGE_URL}}:latest
