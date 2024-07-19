@@ -27,7 +27,7 @@ RUN ARCH=$(uname -m) && \
 # Add conda to PATH
 ENV PATH="/opt/conda/bin:$PATH"
 
-RUN conda install python=$PYTHON_VERSION
+RUN conda install python=$PYTHON_VERSION -y
 
 # Update pip and setuptools in the base environment
 RUN conda clean -y --all && \
