@@ -32,4 +32,4 @@ RUN ARCH=$(uname -m) && \
 ENV PATH="/root/.local/bin:/opt/conda/bin:$PATH"
 
 RUN conda install -y libgcc-ng python=$PYTHON_VERSION && \
-    conda pip install --update setuptools
+    conda pip install --upgrade pip setuptools
