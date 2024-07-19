@@ -29,7 +29,6 @@ jobs:
 
       - name: Install skopeo && transfer image
         run: |
-          apt-get -y update
           apt-get -y install skopeo
           skopeo copy docker://quay.io/kuberay/operator:nightly docker://${{env.IMAGE_URL_OPERATOR}}:latest
 
