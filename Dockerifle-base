@@ -3,10 +3,6 @@ FROM debian:bullseye-slim
 LABEL org.opencontainers.image.authors="vaggeliskls"
 LABEL org.opencontainers.image.description="A minified version of ray images"
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE="1"
-ENV PYTHONUNBUFFERED="1"
-
 # install packages
 RUN apt-get update && apt-get install -y \
     wget \
@@ -33,3 +29,5 @@ ENV PATH="/opt/conda/bin:$PATH"
 # Update pip and setuptools in the base environment
 RUN conda clean -y --all && \
     pip install --upgrade pip setuptools
+
+RUN conda info
