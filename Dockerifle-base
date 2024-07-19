@@ -35,7 +35,12 @@ ENV PATH="/opt/conda/bin:$PATH"
 RUN conda create -n ray python=$PYTHON_VERSION -y && \
     conda activate ray
 
-ENV PATH="/opt/conda/envs/ray/bin:$PATH"
+RUN conda config --add channels conda-forge && \
+    conda config --set channel_priority strict && \
+    conda create -n ray python=$PYTHON_VERSION && \
+    conda activate ray
+
+# ENV PATH="/opt/conda/envs/ray/bin:$PATH"
 
 # Update pip and setuptools
 RUN pip install --upgrade pip setuptools
