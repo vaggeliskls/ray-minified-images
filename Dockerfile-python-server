@@ -1,3 +1,7 @@
 FROM vaggeliskls/ray-base:latest
 
-RUN pip install ray[all]==2.32.0
+RUN pip install ray[all]==2.32.0 && \
+    pip install --upgrade pip setuptools    
+
+# remove pip
+RUN pip uninstall pip -y
