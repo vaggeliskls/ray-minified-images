@@ -28,12 +28,29 @@ RUN ARCH=$(uname -m) && \
     /bin/bash /tmp/miniconda.sh -b -p /opt/conda && \
     rm /tmp/miniconda.sh
 
+# # Add conda to PATH
+# ENV PATH="/opt/conda/bin:$PATH"
+
+# # Install the specific Python version in the base environment
+# RUN conda install python=$PYTHON_VERSION -y && \
+#     conda clean -y --all
+
+# # Update pip and setuptools in the base environment
+# RUN pip install --upgrade pip setuptools
+
 # Add conda to PATH
 ENV PATH="/opt/conda/bin:$PATH"
 
-# Install the specific Python version in the base environment
-RUN conda install python=$PYTHON_VERSION -y && \
-    conda clean -y --all
+# Create conda environment and install Python
+RUN conda create -n ray python=$PYTHON_VERSION -y
 
-# Update pip and setuptools in the base environment
+# Activate conda environment and install additional packages
+RUN echo "source activate ray" > ~/.bashrc
+ENV CONDA_DEFAULT_ENV=ray
+ENV PATH="/opt/conda/envs/ray/bin:$PATH"
+
+# Remove any existing conda environments to avoid conflicts
+RUN conda env remove -n base
+
+# Update pip and setuptools
 RUN pip install --upgrade pip setuptools
