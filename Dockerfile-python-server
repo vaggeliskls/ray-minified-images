@@ -3,7 +3,7 @@ FROM vaggeliskls/ray-base:latest
 RUN pip install --no-cache-dir --upgrade pip setuptools ray[all]==2.32.0
 
 # remove pip
-RUN pip uninstall pip -y
+# RUN pip uninstall pip -y
 
 # When we move these args with workdir before the build fails
 # Non root user configuration
