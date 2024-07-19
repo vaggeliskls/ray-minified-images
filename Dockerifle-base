@@ -33,7 +33,6 @@ ENV PATH="/opt/conda/bin:$PATH"
 
 # Install the specific Python version in the base environment
 RUN conda install python=$PYTHON_VERSION -y && \
-    conda update -n base -c defaults conda -y && \
     conda clean -y --all
 
 # Update pip and setuptools in the base environment
