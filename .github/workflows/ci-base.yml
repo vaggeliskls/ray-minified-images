@@ -1,4 +1,4 @@
-name: Ray images publish
+name: Ray Base
 
 on:
   push:

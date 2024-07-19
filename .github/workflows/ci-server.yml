@@ -1,4 +1,4 @@
-name: Ray images publish
+name: Ray Server
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerifle-python-server
+          file: ./Dockerfile-python-server
           push: true
           tags: |
             ${{env.IMAGE_URL}}:latest
