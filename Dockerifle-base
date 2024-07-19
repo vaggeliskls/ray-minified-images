@@ -1,0 +1,29 @@
+
+ARG PYTHON_VERSION=3.10.14
+FROM debian:bullseye-slim
+
+LABEL org.opencontainers.image.authors="vaggeliskls"
+LABEL org.opencontainers.image.description="A minified version of ray images"
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE="1"
+ENV PYTHONUNBUFFERED="1"
+
+# Detect the architecture and download the appropriate Miniconda installer
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "x86_64" ]; then \
+    MINICONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh; \
+    elif [ "$ARCH" = "aarch64" ]; then \
+    MINICONDA_URL=https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh; \
+    else \
+    echo "Unsupported architecture: $ARCH"; exit 1; \
+    fi && \
+    wget --quiet $MINICONDA_URL -O /tmp/miniconda.sh && \
+    /bin/bash /tmp/miniconda.sh -b -p /opt/conda && \
+    rm /tmp/miniconda.sh
+
+# Add ray to path
+ENV PATH="/root/.local/bin:/opt/conda/bin:$PATH"
+
+RUN conda install -y libgcc-ng python=$PYTHON_VERSION &&\
+    conda pip install --update setuptools
