@@ -7,11 +7,11 @@ on:
 
 env:
   TAG_NAME: ${{ github.ref_name }}
-  IMAGE_URL: docker.io/${{ github.actor }}/ray-base
+  IMAGE_URL: docker.io/${{ github.actor }}/ray-server
 
 jobs:
-  ray-image-base:
-    name: Ray image base
+  ray-image-server:
+    name: Ray image server
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current repository
@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerifle-base
+          file: ./Dockerifle-python-server
           push: true
           tags: |
             ${{env.IMAGE_URL}}:latest
