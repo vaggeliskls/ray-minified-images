@@ -1,3 +1,4 @@
+ARG PYTHON_VERSION=3.10.13
 FROM debian:bullseye-slim
 
 LABEL org.opencontainers.image.authors="vaggeliskls"
@@ -25,6 +26,9 @@ RUN ARCH=$(uname -m) && \
 
 # Add conda to PATH
 ENV PATH="/opt/conda/bin:$PATH"
+
+RUN conda activate base && \
+    create --name base python=$PYTHON_VERSION
 
 # Update pip and setuptools in the base environment
 RUN conda clean -y --all && \
