@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerifle-python-base
+          file: ./Dockerfile-python-base
           push: true
           cache-from: ${{env.IMAGE_URL_BASE}}:latest
           tags: |
