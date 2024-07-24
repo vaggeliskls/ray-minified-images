@@ -1,4 +1,4 @@
-name: Ray Operator, Base and Server
+name: Ray Operator
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - test
 
 concurrency:
-  group: ${{ github.ref_type }}
+  group: operator-${{ github.ref_type }}
   cancel-in-progress: true
 
 env:
