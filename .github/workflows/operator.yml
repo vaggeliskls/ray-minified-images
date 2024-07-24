@@ -23,9 +23,9 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-
+      # In newer version we have /manager: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found (required by /manager)
       - name: Install skopeo && transfer image
         run: |
           sudo apt-get -y update
           sudo apt-get -y install skopeo
-          skopeo copy docker://quay.io/kuberay/operator:a0afea2 docker://${{env.IMAGE_URL_OPERATOR}}:latest
+          skopeo copy docker://quay.io/kuberay/operator:40a946a docker://${{env.IMAGE_URL_OPERATOR}}:latest
