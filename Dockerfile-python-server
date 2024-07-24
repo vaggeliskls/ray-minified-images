@@ -19,7 +19,7 @@ ARG APP_DIR=/app
 WORKDIR ${APP_DIR}
 
 # Create a non-root user and app dir
-ENV PATH="$HOME_DIR/.local/bin:$PATH"
+ENV PATH="/root/.local/bin:/opt/conda/bin:$HOME_DIR/.local/bin:$PATH"
 ENV HOME=$HOME_DIR
 RUN groupadd -f --gid ${GID} ${GNAME} \
     && useradd --uid ${UID} --gid ${GNAME} --home-dir ${HOME_DIR} --create-home --shell /bin/bash ${UNAME} \
@@ -30,5 +30,5 @@ RUN groupadd -f --gid ${GID} ${GNAME} \
 
 # switch to non root user 
 USER $UNAME
-ENTRYPOINT []
-CMD []
+# ENTRYPOINT []
+# CMD []
