@@ -19,7 +19,7 @@ ARG APP_DIR=/app
 WORKDIR ${APP_DIR}
 
 # Create a non-root user and app dir
-ENV PATH="/root/.local/bin:/opt/conda/bin:$HOME_DIR/.local/bin:$PATH"
+ENV PATH="$HOME_DIR/.local/bin:$PATH"
 ENV HOME=$HOME_DIR
 RUN groupadd -f --gid ${GID} ${GNAME} \
     && useradd --uid ${UID} --gid ${GNAME} --home-dir ${HOME_DIR} --create-home --shell /bin/bash ${UNAME} \
@@ -27,6 +27,11 @@ RUN groupadd -f --gid ${GID} ${GNAME} \
     && chown -R $UNAME:$GNAME ${APP_DIR} \
     && chgrp -R ${GID} ${HOME} \
     && chmod -R g=u ${HOME} 
+
+# Ray generates the commmands to run but they executed with 
+# /bin/bash -lc --
+# That cannot find any dependencies by default
+RUN echo 'export PATH=$PATH' >> /etc/profile
 
 # switch to non root user 
 USER $UNAME
