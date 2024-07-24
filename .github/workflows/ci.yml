@@ -31,7 +31,7 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get -y install skopeo
-          skopeo copy docker://quay.io/kuberay/operator:732453e docker://${{env.IMAGE_URL_OPERATOR}}:latest
+          skopeo copy docker://quay.io/kuberay/operator:7f15e13 docker://${{env.IMAGE_URL_OPERATOR}}:latest
 
   ray-image-base:
     name: Ray Base
@@ -63,8 +63,6 @@ jobs:
             ${{env.IMAGE_URL_SERVER}}:latest
             ${{env.IMAGE_URL_SERVER}}:${{env.RAY_VERSION}}
           #   platforms: linux/amd64,linux/arm64
-          sbom: true
-          provenance: true
 
   ray-image-server:
     name: Ray
@@ -99,5 +97,3 @@ jobs:
             ${{env.IMAGE_URL_SERVER}}:latest
             ${{env.IMAGE_URL_SERVER}}:${{env.RAY_VERSION}}
           #   platforms: linux/amd64,linux/arm64
-          sbom: true
-          provenance: true
