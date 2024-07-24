@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir --upgrade pip setuptools ray[all]==${RAY_VERSION}
 ARG UNAME=ray
 ARG GNAME=users
 ARG UID=1000
-ARG GID=100
+ARG GID=0
 ARG HOME_DIR=/home/$UNAME
 ARG APP_DIR=/app
 
@@ -24,7 +24,11 @@ ENV HOME=$HOME_DIR
 RUN groupadd -f --gid ${GID} ${GNAME} \
     && useradd --uid ${UID} --gid ${GNAME} --home-dir ${HOME_DIR} --create-home --shell /bin/sh ${UNAME} \
     && mkdir -p ${APP_DIR} \
-    && chown -R $UNAME:$GNAME ${APP_DIR}
+    && chown -R $UNAME:$GNAME ${APP_DIR} \
+    && chgrp -R ${GID} ${HOME} \
+    && chmod -R g=u ${HOME} 
 
-
+# switch to non root user 
 USER $UNAME
+ENTRYPOINT []
+CMD ["sh", "-c", "-u", "$KUBERAY_GEN_RAY_START_CMD"]
