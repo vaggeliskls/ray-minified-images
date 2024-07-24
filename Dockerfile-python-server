@@ -33,6 +33,12 @@ RUN groupadd -f --gid ${GID} ${GNAME} \
 # That cannot find any dependencies by default
 RUN echo 'export PATH=/root/.local/bin:/opt/conda/bin:$PATH' >> /etc/profile
 
+# Conda configuration
+# Add external conda environments location
+ARG EXTERNAL_ENVS_PATH=$HOME_DIR/anaconda3/envs/
+RUN echo "EXTERNAL_ENVS_PATH: $EXTERNAL_ENVS_PATH"
+RUN conda config --add envs_dirs $EXTERNAL_ENVS_PATH
+
 # switch to non root user 
 USER $UNAME
 # ENTRYPOINT []
