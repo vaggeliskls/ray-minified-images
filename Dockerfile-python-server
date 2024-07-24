@@ -31,7 +31,7 @@ RUN groupadd -f --gid ${GID} ${GNAME} \
 # Ray generates the commmands to run but they executed with 
 # /bin/bash -lc --
 # That cannot find any dependencies by default
-RUN echo 'export PATH=$PATH' >> /etc/profile
+RUN echo 'export PATH=/root/.local/bin:/opt/conda/bin:$PATH' >> /etc/profile
 
 # switch to non root user 
 USER $UNAME

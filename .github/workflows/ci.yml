@@ -36,10 +36,12 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
 
       - name: 📦 Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile-python-base
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           push: true
           tags: |
             ${{env.IMAGE_URL_SERVER}}:latest
@@ -68,11 +70,13 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
 
       - name: 📦 Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile-python-server
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: |
             RAY_VERSION: ${{env.RAY_VERSION}}
           tags: |
